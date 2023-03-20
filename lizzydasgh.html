@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<head>
+  <title>Bad Bunny</title>
+  <style>
+    body {
+      text-align: center;
+      background: url("https://www.travelanddestinations.com/wp-content/uploads/2021/10/Honduras-beach-destination.jpg");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-family: helvetica;
+    }
+    p {
+      font-size: 22px;
+    }
+    input {
+      border: 0;
+      padding: 10px;
+      font-size: 18px;
+    }
+    input[type="submit"] {
+      background: blue;
+      color: white;
+    }
+    img {
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <img src="https://static01.nyt.com/images/2022/05/05/arts/05bad-bunny1/05bad-bunny1-mediumSquareAt3X.jpg">
+  <p>Hi! I'm Bad Bunny, a Singer. Say Hola!</p>
+  <input type="name" placeholder="Your name">
+  <input type="email" placeholder="Your email">
+  <input type="submit">
+  <script type="module">
+	  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBscsET0Uc3laL4cLL9Zsxb9I5dh1UqlOo",
+      authDomain: "turtle-aa411.firebaseapp.com",
+      projectId: "turtle-aa411",
+      storageBucket: "turtle-aa411.appspot.com",
+      messagingSenderId: "510917201806",
+      appId: "1:510917201806:web:92779869a0cf379819dedf"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+	const db = getDatabase(app);
+    const Name = document.querySelector("#Name") 
+    const Email = document.querySelector("#Email")
+    document.querySelector('#submit').addEventListener('click', Submit)
+	
+	
+	function Submit() {
+
+		function buildTimestamp() {
+		  const now = new Date();
+		  let timestamp = now.getFullYear().toString() + "/";
+		  //const month = now.toLocaleString('default', { month: 'long' });
+
+		  let month = now.getMonth()+1   //add 1 because Javascript uses 0 for January
+		  month = month.toString()
+		  month = addLeadingZero(month)
+		  timestamp += month + "/"; 
+
+		  let date = now.getDate().toString()
+		  date = addLeadingZero(date)
+		  timestamp += date + "/";
+
+		  let hours = now.getHours().toString()
+		  hours = addLeadingZero(hours)
+		  timestamp += hours + ":";
+
+		  let minutes = now.getMinutes().toString()
+		  minutes = addLeadingZero(minutes)
+		  timestamp += minutes + ":";
+
+		  let seconds = now.getSeconds().toString()
+		  seconds = addLeadingZero(seconds)
+		  timestamp += seconds;
+  
+		  return timestamp
+		}
+	
+		function addLeadingZero(units) {
+			if (units.length < 2) {
+				units = "0" + units
+			}
+			return units
+		}
+
+		  const timestamp = buildTimestamp()
+	  
+		  set(ref(db, timestamp), {
+			  Name: Name.value,
+		      email: Email.value,
+		  });
+
+		  Name.value = ""
+		  Email.value = ""
+		}
+	
+	
+	
+  </script>
+</body>
